@@ -7,19 +7,31 @@ const loadCardAllData=()=>{
 const displayCardData=allCardData=>{
      // console.log(allCardData);
      const cardContainer=document.getElementById('card-container');
-     allCardData.forEach(singleCardData => {
+     allCardData.slice(0,6).forEach(singleCardData => {
           console.log(singleCardData);
+          const{image, features, name, published_in}=singleCardData;
           cardContainer.innerHTML+=`
           <div class="col">
           <div class="card h-100">
-             <img src="..." class="card-img-top" alt="...">
+             <img src="${image}" class="card-img-top p-3 rounded-5" height="200px" width="200px" alt="...">
            <div class="card-body">
-             <h5 class="card-title">Card title</h5>
-             <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+             <h5 class="card-title">Features</h5>
+             <ol>
+             <li>${features[0]}</li>
+             <li>${features[1]}</li>
+             <li>${features[2]}</li>
+             </ol>
+             <hr class="container">
            </div>
-             <div class="card-footer">
-             <small class="text-muted">Last updated 3 mins ago</small>
-             </div>
+           <h4 class="ps-3">${name}</h4>
+           <div class="d-flex justify-content-between px-3">
+           <div class="d-flex gap-1 align-items-center">
+           <i class="fa-solid fa-calendar-days mb-3"></i>
+           <p>${published_in}</p>
+           </div>   
+           <i class="fa-solid fa-arrow-right text-danger pe-4"></i>
+           </div>
+           </div>
           </div>
          </div>
           `
