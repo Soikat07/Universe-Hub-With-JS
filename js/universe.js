@@ -1,4 +1,6 @@
 const loadCardAllData=()=>{
+  // loader start 
+  toggleLoader(true);
      const url='https://openapi.programming-hero.com/api/ai/tools';
      fetch(url)
      .then(res=> res.json())
@@ -7,7 +9,7 @@ const loadCardAllData=()=>{
 const displayCardData=allCardData=>{
      // console.log(allCardData);
      const cardContainer=document.getElementById('card-container');
-     allCardData.slice().forEach(singleCardData => {
+     allCardData.slice(0,6).forEach(singleCardData => {
           // console.log(singleCardData);
           const{image, features, name, published_in,id}=singleCardData;
           cardContainer.innerHTML+=`
@@ -35,6 +37,8 @@ const displayCardData=allCardData=>{
           </div>
          </div>
           `
+          // stop loader
+          toggleLoader(false);
      });
 }
 // Modal section
@@ -102,4 +106,14 @@ const displayCardData=allCardData=>{
         </div>
           `
      }
+    //  loader section
+    const toggleLoader=isLoading=>{
+      const loaderSection=document.getElementById('loader-section');
+      if(isLoading){
+        loaderSection.classList.remove('d-none');
+      }
+      else{
+        loaderSection.classList.add('d-none');
+      }
+    }
 loadCardAllData()
