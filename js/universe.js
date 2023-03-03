@@ -20,7 +20,7 @@ const displayCardData=(allCardData,noLimit)=>{
           cardContainer.innerHTML+=`
           <div class="col">
           <div class="card h-100">
-             <img src="${image}" class="card-img-top p-3 rounded-5" height="200px" width="200px" alt="...">
+             <img src="${image}" class=" img-fluid card-img-top p-3 rounded-5" height="200px" width="200px" alt="...">
            <div class="card-body">
              <h5 class="card-title">Features</h5>
              <ol>
@@ -65,23 +65,23 @@ const displayCardData=(allCardData,noLimit)=>{
           <div class="card h-100 text-bg-danger bg-opacity-10">
             <div class="card-body">
               <h5 class="card-title text-black">${data.description}</h5>
-              <div class="d-flex justify-content-center mt-4 gap-2">
 
-              <div class="p-2 text-bg-danger rounded-3 text-success">
+              <div class="row d-flex justify-content-center text-center flex-wrap flex-md-nowrap gap-3">
+
+              <div class="py-3 col text-bg-danger rounded-3 text-success">
               <p>${data.pricing[0].price ? data.pricing[0].price : "Free of cost"}<br>${data.pricing[0].plan}</p>
               </div>
 
-              <div class="p-2 text-bg-danger rounded-3 text-warning">
+              <div class="py-3 col text-bg-danger rounded-3 text-warning">
               <p>${data.pricing[1].price ? data.pricing[1].price : "Free of cost"}<br>${data.pricing[1].plan}</p>
-              </div
-              >
-              <div class="p-2 text-bg-danger rounded-3 text-danger">
+              </div>
+              <div class="py-2 col text-bg-danger rounded-3 text-danger">
               <p>${data.pricing[2].price ? data.pricing[2].price : "Free of cost"}<br>${data.pricing[2].plan}</p>
               </div>
               </div>
 
-              <div class="text-black d-flex justify-content-between mt-3">
-              <div>
+              <div class="row row-cols-1 row-cols-md-2 text-black mt-3 ">
+              <div class="col">
               <h5>Features</h5>
               <ul class="text-dark">
               <li>${data.features[1].feature_name}</li>
@@ -90,7 +90,7 @@ const displayCardData=(allCardData,noLimit)=>{
               </ul>
               </div>
 
-              <div>
+              <div class="col">
               <h5>Integrations</h5>
               <ul class="text-dark">
               <li>${data.integrations[0] ? data.integrations[0] : "No Data Found"}</li>
@@ -105,7 +105,7 @@ const displayCardData=(allCardData,noLimit)=>{
 
         <div class="col text-center">
           <div class="card h-100">
-          <img src="${data.image_link[0]}" class="card-img-top p-2 rounded-4" height="200px" width="200px" alt="...">
+          <img src="${data.image_link[0]}" class=" img-fluid card-img-top p-2 rounded-4" height="200px" width="200px" alt="...">
           <div class="card-body">
           <h5 class="card-title">${data.input_output_examples[0].input}</h5>
           <p>${data.input_output_examples[0].output ? data.input_output_examples[0].output :"No! Not Yet! Take a break!!!"}</p>
