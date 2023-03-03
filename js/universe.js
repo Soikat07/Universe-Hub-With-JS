@@ -68,15 +68,15 @@ const displayCardData=(allCardData,noLimit)=>{
               <div class="d-flex justify-content-center mt-4 gap-2">
 
               <div class="p-2 text-bg-danger rounded-3 text-success">
-              <p>${data.pricing[0].price}<br>${data.pricing[0].plan}</p>
+              <p>${data.pricing[0].price ? data.pricing[0].price : "Free of cost"}<br>${data.pricing[0].plan}</p>
               </div>
 
               <div class="p-2 text-bg-danger rounded-3 text-warning">
-              <p>${data.pricing[1].price}<br>${data.pricing[1].plan}</p>
+              <p>${data.pricing[1].price ? data.pricing[1].price : "Free of cost"}<br>${data.pricing[1].plan}</p>
               </div
               >
               <div class="p-2 text-bg-danger rounded-3 text-danger">
-              <p>${data.pricing[2].price}<br>${data.pricing[2].plan}</p>
+              <p>${data.pricing[2].price ? data.pricing[2].price : "Free of cost"}<br>${data.pricing[2].plan}</p>
               </div>
               </div>
 
@@ -86,16 +86,16 @@ const displayCardData=(allCardData,noLimit)=>{
               <ul class="text-dark">
               <li>${data.features[1].feature_name}</li>
               <li>${data.features[2].feature_name}</li>
-              <li>${data.features[3].feature_name}</li>
+              <li>${data.features[3].feature_name}</li> 
               </ul>
               </div>
 
               <div>
               <h5>Integrations</h5>
               <ul class="text-dark">
-                <li>${data.integrations[0]}</li>
-                <li>${data.integrations[1]}</li>
-                <li>${data.integrations[2]}</li>
+              <li>${data.integrations[0] ? data.integrations[0] : "No Data Found"}</li>
+              <li>${data.integrations[1] ? data.integrations[1] : "No Data Found"}</li>
+              <li>${data.integrations[2] ? data.integrations[2] : "No Data Found"}</li>
               </ul>
             </div>
             </div>
@@ -108,7 +108,7 @@ const displayCardData=(allCardData,noLimit)=>{
           <img src="${data.image_link[0]}" class="card-img-top p-2 rounded-4" height="200px" width="200px" alt="...">
           <div class="card-body">
           <h5 class="card-title">${data.input_output_examples[0].input}</h5>
-          <p>${data.input_output_examples[0].output}</p>
+          <p>${data.input_output_examples[0].output ? data.input_output_examples[0].output :"No! Not Yet! Take a break!!!"}</p>
           </div>
           </div>
           <button class="btn btn-danger position-relative position-absolute top-0 end-0" >${data.accuracy.score} accuracy</button>
