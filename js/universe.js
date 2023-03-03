@@ -1,15 +1,20 @@
-const loadCardAllData=()=>{
+const loadCardAllData=(noLimit)=>{
   // loader start 
   toggleLoader(true);
      const url='https://openapi.programming-hero.com/api/ai/tools';
      fetch(url)
      .then(res=> res.json())
-     .then(data => displayCardData(data.data.tools))
+     .then(data => displayCardData(data.data.tools, noLimit))
 }
-const displayCardData=allCardData=>{
+const displayCardData=(allCardData,noLimit)=>{
      // console.log(allCardData);
      const cardContainer=document.getElementById('card-container');
-     allCardData.slice(0,6).forEach(singleCardData => {
+     cardContainer.textContent='';
+    //  by default value set
+    if(noLimit!=true){
+      allCardData=allCardData.slice(0,6);
+    }
+     allCardData.forEach(singleCardData => {
           // console.log(singleCardData);
           const{image, features, name, published_in,id}=singleCardData;
           cardContainer.innerHTML+=`
@@ -41,6 +46,10 @@ const displayCardData=allCardData=>{
           toggleLoader(false);
      });
 }
+// show all card button
+    document.getElementById('btn-showAll').addEventListener('click',function(){
+      loadCardAllData(true);
+    })
 // Modal section
      const loadSingleModalData=(cardId)=>{
           const url=`https://openapi.programming-hero.com/api/ai/tool/${cardId}`
