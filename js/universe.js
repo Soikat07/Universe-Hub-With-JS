@@ -7,7 +7,7 @@ const loadCardAllData=()=>{
 const displayCardData=allCardData=>{
      // console.log(allCardData);
      const cardContainer=document.getElementById('card-container');
-     allCardData.slice(0,6).forEach(singleCardData => {
+     allCardData.slice().forEach(singleCardData => {
           // console.log(singleCardData);
           const{image, features, name, published_in,id}=singleCardData;
           cardContainer.innerHTML+=`
@@ -47,22 +47,58 @@ const displayCardData=allCardData=>{
      const showSingleModalData=data=>{
           console.log(data);
           document.getElementById('modal-container').innerHTML=`
-          <div class="col">
-          <div class="card h-100">
+
+          <div class="col p-2">
+          <div class="card h-100 text-bg-danger bg-opacity-10">
             <div class="card-body">
-              <h5 class="card-title">${data.description}</h5>
-              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <h5 class="card-title text-black">${data.description}</h5>
+              <div class="d-flex justify-content-center mt-4 gap-2">
+
+              <div class="p-2 text-bg-danger rounded-3 text-success">
+              <p>${data.pricing[0].price}<br>${data.pricing[0].plan}</p>
+              </div>
+
+              <div class="p-2 text-bg-danger rounded-3 text-warning">
+              <p>${data.pricing[1].price}<br>${data.pricing[1].plan}</p>
+              </div
+              >
+              <div class="p-2 text-bg-danger rounded-3 text-danger">
+              <p>${data.pricing[2].price}<br>${data.pricing[2].plan}</p>
+              </div>
+              </div>
+
+              <div class="text-black d-flex justify-content-between mt-3">
+              <div>
+              <h5>Features</h5>
+              <ul class="text-dark">
+              <li>${data.features[1].feature_name}</li>
+              <li>${data.features[2].feature_name}</li>
+              <li>${data.features[3].feature_name}</li>
+              </ul>
+              </div>
+
+              <div>
+              <h5>Integrations</h5>
+              <ul class="text-dark">
+                <li>${data.integrations[0]}</li>
+                <li>${data.integrations[1]}</li>
+                <li>${data.integrations[2]}</li>
+              </ul>
+            </div>
+            </div>
             </div>
           </div>
         </div>
+
         <div class="col text-center">
           <div class="card h-100">
-            <img src="${data.image_link[0]}" class="card-img-top p-2 rounded-5" alt="...">
-            <div class="card-body">
-               <h5 class="card-title">${data.input_output_examples[0].input}</h5>
-              <p>${data.input_output_examples[0].output}</p>
-            </div>
+          <img src="${data.image_link[0]}" class="card-img-top p-2 rounded-4" height="200px" width="200px" alt="...">
+          <div class="card-body">
+          <h5 class="card-title">${data.input_output_examples[0].input}</h5>
+          <p>${data.input_output_examples[0].output}</p>
           </div>
+          </div>
+          <button class="btn btn-danger position-relative position-absolute top-0 end-0" >${data.accuracy.score} accuracy</button>
         </div>
           `
      }
