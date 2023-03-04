@@ -1,13 +1,37 @@
+// global variable
+let dataArray=[];
 const loadCardAllData=(noLimit)=>{
   // loader start 
   toggleLoader(true);
      const url='https://openapi.programming-hero.com/api/ai/tools';
      fetch(url)
      .then(res=> res.json())
-     .then(data => displayCardData(data.data.tools, noLimit))
+     .then(data => {
+      dataArray=data.data.tools
+      displayCardData(data.data.tools, noLimit)
+     })
 }
+// sort data by date
+  customSort=(a,b)=>{
+  const dateA=new Date(a.published_in);
+  const dateB=new Date(b.published_in);
+  if(dateA>dateB){
+    return 1;
+  }
+  else if(dateA<dateB){
+    return -1;
+  }
+  else{
+    return 0;
+  }
+};
+// sort date button handler
+document.getElementById('sort-date').addEventListener('click',function(){
+  const sortedData=dataArray.sort(customSort);
+  displayCardData(sortedData);
+})
 const displayCardData=(allCardData,noLimit)=>{
-     // console.log(allCardData);
+    //  console.log(allCardData);
      const cardContainer=document.getElementById('card-container');
      cardContainer.textContent='';
     //  by default value set
@@ -58,7 +82,7 @@ const displayCardData=(allCardData,noLimit)=>{
           .then(data =>showSingleModalData(data.data))
      }
      const showSingleModalData=data=>{
-          console.log(data);
+          // console.log(data);
           document.getElementById('modal-container').innerHTML=`
 
           <div class="col p-2">
@@ -111,7 +135,7 @@ const displayCardData=(allCardData,noLimit)=>{
           <p>${data.input_output_examples[0].output ? data.input_output_examples[0].output :"No! Not Yet! Take a break!!!"}</p>
           </div>
           </div>
-          <button class="btn btn-danger position-relative position-absolute top-0 end-0" >${data.accuracy.score} accuracy</button>
+          <button class="btn btn-danger position-absolute top-0 end-0" >${data.accuracy.score} accuracy</button>
         </div>
           `
      }
