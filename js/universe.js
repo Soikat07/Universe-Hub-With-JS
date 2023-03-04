@@ -7,37 +7,25 @@ const loadCardAllData=(noLimit)=>{
      fetch(url)
      .then(res=> res.json())
      .then(data => {
-      dataArray=data.data.tools
-      displayCardData(data.data.tools, noLimit)
+      limitData(data.data.tools,noLimit)
      })
 }
-// sort data by date
-  customSort=(a,b)=>{
-  const dateA=new Date(a.published_in);
-  const dateB=new Date(b.published_in);
-  if(dateA>dateB){
-    return 1;
-  }
-  else if(dateA<dateB){
-    return -1;
+// see all condition function
+const limitData=(limitCardData,noLimit)=>{
+    // console.log(allCardData);
+  if(noLimit!=true){
+     limitCardData=limitCardData.slice(0,6);
+    return displayCardData(limitCardData);
   }
   else{
-    return 0;
+    return displayCardData(limitCardData);
   }
 };
-// sort date button handler
-document.getElementById('sort-date').addEventListener('click',function(){
-  const sortedData=dataArray.sort(customSort);
-  displayCardData(sortedData);
-})
-const displayCardData=(allCardData,noLimit)=>{
-    //  console.log(allCardData);
-     const cardContainer=document.getElementById('card-container');
-     cardContainer.textContent='';
-    //  by default value set
-    if(noLimit!=true){
-      allCardData=allCardData.slice(0,6);
-    }
+const displayCardData=(allCardData)=>{
+    dataArray=allCardData;
+    // console.log(allCardData);
+    const cardContainer=document.getElementById('card-container');
+    cardContainer.textContent='';
      allCardData.forEach(singleCardData => {
           // console.log(singleCardData);
           const{image, features, name, published_in,id}=singleCardData;
@@ -48,9 +36,7 @@ const displayCardData=(allCardData,noLimit)=>{
            <div class="card-body">
              <h5 class="card-title">Features</h5>
              <ol>
-             <li>${features[0]}</li>
-             <li>${features[1]}</li>
-             <li>${features[2]}</li>
+             ${features.map(a=>(`<li>${a}</;>`)).join('')}
              </ol>
              <hr class="container">
            </div>
@@ -70,6 +56,25 @@ const displayCardData=(allCardData,noLimit)=>{
           toggleLoader(false);
      });
 }
+// sort data by date
+customSort=(a,b)=>{
+  const dateA=new Date(a.published_in);
+  const dateB=new Date(b.published_in);
+  if(dateA>dateB){
+    return 1;
+  }
+  else if(dateA<dateB){
+    return -1;
+  }
+  else{
+    return 0;
+  }
+};
+// sort date button handler
+document.getElementById('sort-date').addEventListener('click',function(){
+  const sortedData=dataArray.sort(customSort);
+  displayCardData(sortedData);
+})
 // show all card button
     document.getElementById('btn-showAll').addEventListener('click',function(){
       loadCardAllData(true);
@@ -82,25 +87,31 @@ const displayCardData=(allCardData,noLimit)=>{
           .then(data =>showSingleModalData(data.data))
      }
      const showSingleModalData=data=>{
-          // console.log(data);
+          console.log(data);
+          const{description, pricing,features,integrations, image_link,input_output_examples,accuracy}=data;
+          const{feature_name}=data;
+          console.log(feature_name)
           document.getElementById('modal-container').innerHTML=`
 
           <div class="col p-2">
           <div class="card h-100 text-bg-danger bg-opacity-10">
             <div class="card-body">
-              <h5 class="card-title text-black">${data.description}</h5>
+              <h5 class="card-title text-black">${description?description:'No description' }</h5>
 
               <div class="row d-flex justify-content-center text-center flex-wrap flex-md-nowrap gap-3">
 
               <div class="py-3 col text-bg-danger rounded-3 text-success">
-              <p>${data.pricing[0].price ? data.pricing[0].price : "Free of cost"}<br>${data.pricing[0].plan}</p>
+              <p>${pricing ? pricing[0].price : "Free of cost"}<br>
+              ${pricing ? pricing[0].plan :"Basic"}</p>
               </div>
 
               <div class="py-3 col text-bg-danger rounded-3 text-warning">
-              <p>${data.pricing[1].price ? data.pricing[1].price : "Free of cost"}<br>${data.pricing[1].plan}</p>
+              <p>${pricing ? pricing[1].price : "Free of cost"}<br>
+              ${pricing ? pricing[1].plan :"Pro"}</p>
               </div>
               <div class="py-2 col text-bg-danger rounded-3 text-danger">
-              <p>${data.pricing[2].price ? data.pricing[2].price : "Free of cost"}<br>${data.pricing[2].plan}</p>
+              <p>${pricing ? pricing[2].price : "Free of cost"}<br>
+                 ${pricing ? pricing[2].plan :"Enterprise"}</p>
               </div>
               </div>
 
@@ -108,18 +119,16 @@ const displayCardData=(allCardData,noLimit)=>{
               <div class="col">
               <h5>Features</h5>
               <ul class="text-dark">
-              <li>${data.features[1].feature_name}</li>
-              <li>${data.features[2].feature_name}</li>
-              <li>${data.features[3].feature_name}</li> 
+              <li>${features[1].feature_name}</li>
+              <li>${features[2].feature_name}</li>
+              <li>${features[3].feature_name}</li>
               </ul>
               </div>
 
               <div class="col">
               <h5>Integrations</h5>
               <ul class="text-dark">
-              <li>${data.integrations[0] ? data.integrations[0] : "No Data Found"}</li>
-              <li>${data.integrations[1] ? data.integrations[1] : "No Data Found"}</li>
-              <li>${data.integrations[2] ? data.integrations[2] : "No Data Found"}</li>
+              ${integrations? integrations.map(a=>(`<li>${a}</li>`)).join(''):"No Data Found"}
               </ul>
             </div>
             </div>
@@ -129,13 +138,15 @@ const displayCardData=(allCardData,noLimit)=>{
 
         <div class="col text-center">
           <div class="card h-100">
-          <img src="${data.image_link[0]}" class=" img-fluid card-img-top p-2 rounded-4" height="200px" width="200px" alt="...">
+          <img src="${image_link[0]? data.image_link[0]:image_link[1]}" class=" img-fluid card-img-top p-2 rounded-4" height="200px" width="200px" alt="...">
           <div class="card-body">
-          <h5 class="card-title">${data.input_output_examples[0].input}</h5>
-          <p>${data.input_output_examples[0].output ? data.input_output_examples[0].output :"No! Not Yet! Take a break!!!"}</p>
+          <h5 class="card-title">${input_output_examples===null ? "Can you give any example?":
+          input_output_examples[0].input}</h5>
+          <p>${input_output_examples===null ? "No! Not Yet! Take a break!!!":
+           input_output_examples[0].output}</p>
           </div>
           </div>
-          <button class="btn btn-danger position-absolute top-0 end-0" >${data.accuracy.score} accuracy</button>
+          <button class="btn btn-danger position-absolute top-0 end-0 ${accuracy.score?'d-block':'d-none'}">${accuracy.score*100}% accuracy</button>
         </div>
           `
      }
